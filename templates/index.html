@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="POST" class="add-form">
+    <input type="text" name="title" placeholder="Enter task" required>
+    <button type="submit">Add Task</button>
+</form>
+
+<ul class="task-list">
+    {% for task in tasks %}
+        <li class="{{ 'done' if task.completed }}">
+            <span>{{ task.title }}</span>
+
+            <div class="actions">
+                {% if not task.completed %}
+                <form action="{{ url_for('complete', id=task.id) }}" method="POST">
+                    <button type="submit" class="complete-btn">Complete</button>
+                </form>
+                {% endif %}
+
+                <form action="{{ url_for('delete', id=task.id) }}" method="POST">
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
