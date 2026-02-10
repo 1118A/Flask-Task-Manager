@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from models import db, Task
+import os
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
@@ -37,7 +39,9 @@ def delete(id):
     db.session.commit()
     return redirect(url_for("index"))
 
+
 if __name__ == "__main__":
-    # host='0.0.0.0' is the critical part for Docker!
-    app.run(host='0.0.0.0', port=5000)
+    # Use the port assigned by the platform, or default to 5000 for local
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
